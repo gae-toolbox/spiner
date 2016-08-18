@@ -2,18 +2,17 @@ from setuptools import setup
 
 
 setup(
-    name='gaeframe',
+    name='gaeinit',
     version='0.1.0',
     description='Core for GAE based application',
-    url='http://github.com/gaeframe/gaeframe',
+    url='http://github.com/gaeinit/gaeinit',
     author='Roman Nowicki',
     author_email='roman.nowicki@inbox.com',
     license='MIT',
-    packages=['gaeframe'],
+    packages=['gaeinit'],
     scripts=[
-        'bin/gaeframe',
+        'bin/gaeinit',
         'bin/runtests',
-        'bin/run.py',
-        'bin/appengine_config.py'],
+        ],
     include_package_data=True,
     zip_safe=False)
