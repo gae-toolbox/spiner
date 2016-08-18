@@ -10,9 +10,4 @@ setup(
     author_email='roman.nowicki@inbox.com',
     license='MIT',
     packages=['gaeinit'],
-    scripts=[
-        'bin/gaeinit',
-        'bin/runtests',
-        ],
-    include_package_data=True,
     zip_safe=False)
