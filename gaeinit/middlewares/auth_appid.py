@@ -1,5 +1,5 @@
+from gaeinit import config
 from webapp2 import abort
-import gaeinit.config as config
 
 TRUSTED_APP_IDS = config.getenv('TRUSTED_APP_IDS')
 
