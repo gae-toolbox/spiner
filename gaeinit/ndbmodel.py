@@ -4,7 +4,8 @@ from google.appengine.ext import ndb
 class Model(ndb.Model):
     """Generic ndb model"""
 
-    last_updated = ndb.DateTimeProperty(auto_now=True)
+    updatetime = ndb.DateTimeProperty(auto_now=True)
+    createtime = ndb.DateTimeProperty(auto_now_add=True)
 
     def get_id(self):
         """Returns key ID"""
