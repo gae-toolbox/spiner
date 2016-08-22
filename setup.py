@@ -9,5 +9,5 @@ setup(
     author='Roman Nowicki',
     author_email='roman.nowicki@inbox.com',
     license='MIT',
-    packages=['gaeinit', 'gaeinit.middlewares'],
+    packages=['gaeinit', 'gaeinit.middlewares', 'gaeinit.handlers'],
     zip_safe=False)
