@@ -8,12 +8,20 @@ TIMEOUT = getenv('GAEINIT_HTTPPROXY_TIMEOUT')
 class Handler(RequestHandler):
     """HTTP proxy handler
 
-    Usage example:
+    Usage example for example route:
 
-    /proxy?url=http://example.com
+        Route('/proxy', handler=Handler, name='proxy')
+
+    example request:
+
+        /proxy?url=http://example.com
     """
     def get(self):
         url = self.request.get('url')
+        if not url:
+            self.abort(
+                400,
+                "'url' parameter is mandatory, ...?url=http://example.com")
         self._build_response(urlfetch.fetch(
             deadline=TIMEOUT,
             follow_redirects=False,
