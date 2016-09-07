@@ -11,6 +11,8 @@ Example:
     }))
 """
 from jinja2 import Environment, FileSystemLoader
+from webapp2 import uri_for
 import os
 
 view = Environment(loader=FileSystemLoader(os.path.join(os.getcwd(), 'app')))
+view.globals['uri_for'] = uri_for
