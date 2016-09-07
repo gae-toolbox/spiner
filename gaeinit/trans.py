@@ -20,7 +20,14 @@ class Trans:
 
     def __call__(self, key):
         try:
-            return unicode(self.translations[key][self.lang], 'utf-8')
+            d = self.translations[key][self.lang]
+            if isinstance(d, str):
+                return unicode(d, 'utf-8')
+
+            if isinstance(d, (tuple, list)):
+                return [unicode(line, 'utf-8') for line in d]
+
+            return d
         except KeyError:
             return key
 
