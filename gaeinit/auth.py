@@ -3,11 +3,12 @@
 """Taken from: http://goo.gl/JmX4At"""
 from google.appengine.ext import ndb
 from time import mktime
+from webapp2_extras.appengine.auth.models import User as BaseUser
 import webapp2
 import webapp2_extras
 
 
-class User(webapp2_extras.appengine.auth.models.User):
+class User(BaseUser):
     def set_password(self, raw_password):
         """Sets the password for the current user
 
