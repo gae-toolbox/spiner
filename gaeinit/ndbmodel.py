@@ -19,5 +19,4 @@ class Model(ndb.Model):
                 v = v.get().to_dict()
             d[k] = v
         d['id'] = self.get_id()
-        d['last_updated'] = self.get_last_updated_timestamp()
         return d
