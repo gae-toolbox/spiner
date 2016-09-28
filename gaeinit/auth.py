@@ -1,19 +1,20 @@
+# -*- coding: utf-8 -*-
+
 """Taken from: http://goo.gl/JmX4At"""
 from google.appengine.ext import ndb
-from webapp2_extras import security, sessions, auth
 from time import mktime
-from webapp2_extras.appengine.auth.models import User as UserModel
-from webapp2 import RequestHandler, cached_property
+import webapp2
+import webapp2_extras
 
 
-class User(UserModel):
+class User(webapp2_extras.appengine.auth.models.User):
     def set_password(self, raw_password):
         """Sets the password for the current user
 
         :param raw_password:
             The raw password which will be hashed and stored
         """
-        self.password = security.generate_password_hash(
+        self.password = webapp2_extras.security.generate_password_hash(
             raw_password, length=12)
 
     @classmethod
@@ -39,24 +40,24 @@ class User(UserModel):
         return None, None
 
 
-class SessionRequestHandler(RequestHandler):
+class SessionRequestHandler(webapp2.RequestHandler):
     """Adds support for user session to default request handler"""
-    @cached_property
+    @webapp2.cached_property
     def session(self):
         """Shortcut to access the current session."""
         return self.session_store.get_session(backend="datastore")
 
-    @cached_property
+    @webapp2.cached_property
     def auth(self):
         """Shortcut to access the auth instance as a property."""
-        return auth.get_auth()
+        return webapp2_extras.auth.get_auth()
 
-    @cached_property
+    @webapp2.cached_property
     def user_model(self):
         """Shortcut to access the user model instance as a property."""
         return self.auth.store.user_model
 
-    @cached_property
+    @webapp2.cached_property
     def current_user(self):
         """Shortcut to access the current logged in user.
 
@@ -72,9 +73,10 @@ class SessionRequestHandler(RequestHandler):
 
     def dispatch(self):
         """Wrap request with session manager"""
-        self.session_store = sessions.get_store(request=self.request)
+        self.session_store = webapp2_extras.sessions.get_store(
+                request=self.request)
         try:
-            RequestHandler.dispatch(self)
+            webapp2.RequestHandler.dispatch(self)
         finally:
             self.session_store.save_sessions(self.response)
 
