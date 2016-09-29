@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from google.appengine.ext.webapp import blobstore_handlers
 import cloudstorage as gcs
+import gaeinit
 
 
 class Handler(blobstore_handlers.BlobstoreUploadHandler):
@@ -20,4 +21,10 @@ class Handler(blobstore_handlers.BlobstoreUploadHandler):
 
         gcs.copy2(fileinfo.gs_object_name[3:], destpath)
         gcs.delete(fileinfo.gs_object_name[3:])
-        self.response.write(destpath)
+
+        if gaeinit.config.is_local_env():
+            url = '/_ah/gcs{}'.format(destpath)
+        else:
+            url = 'https://storage.googleapis.com{}'.format(destpath)
+
+        self.response.write(url)
