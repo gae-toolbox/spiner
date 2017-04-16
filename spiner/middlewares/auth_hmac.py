@@ -1,12 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from hashlib import md5
 from webapp2 import abort
 import spiner.config as config
 import hmac
 import re
 import time
-
-SECRET_KEY = config.getenv('HMAC_SECRET_KEY')
-EXPIRE = int(config.getenv('HMAC_EXPIRE'))
 
 
 def auth_hmac(func):
@@ -23,6 +22,8 @@ def auth_hmac(func):
     /uri/path?param1=1&param2=2&hmac=fa0ed6c31a72d71413bba43ef93582ca
     """
     def func_wrapper(self, *args, **kwargs):
+        SECRET_KEY = config.getenv('HMAC_SECRET_KEY')
+        EXPIRE = int(config.getenv('HMAC_EXPIRE'))
         auth = self.request.get('hmac', '')
         current_timestamp = int(time.time())
         expire = current_timestamp - current_timestamp % EXPIRE

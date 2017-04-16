@@ -60,19 +60,31 @@ def getenv(key):
             )
         )
 
+
+def _get_env_variables(filename):
+    config = yaml.load(file(filename, 'r'))
+    try:
+        return config['env_variables']
+    except:
+        return {}
+
+
 # memorize system env variables
-_settings = {}
-_prod_env = yaml.load(file('app.yaml', 'r'))['env_variables']
+_settings = {
+        'DEBUG': 0,
+        'ENVIRONMENT': 'production',
+        }
+_prod_env = _get_env_variables('app.yaml')
 
 # Overwrite production settings for dev environments
 if (is_cli_mode() or is_local_env()) and os.path.isfile('local.yaml'):
-    env = yaml.load(file('local.yaml', 'r'))['env_variables']
+    env = _get_env_variables('local.yaml')
     for (k, v) in dict(_prod_env, **env).items():
         _settings[k] = v
     _settings['ENVIRONMENT'] = 'development'
 else:
     if is_dev_env() and os.path.isfile('dev.yaml'):
-        env = yaml.load(file('dev.yaml', 'r'))['env_variables']
+        env = _get_env_variables('dev.yaml')
         for (k, v) in dict(_prod_env, **env).items():
             _settings[k] = v
         _settings['ENVIRONMENT'] = 'development'

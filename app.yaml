@@ -1,0 +1,12 @@
+# app.yaml is required for unittest
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /.*
+  script: tests.webapp
+
+env_variables:
+  DEBUG: '0'
+  LIST: ['one', 'two']

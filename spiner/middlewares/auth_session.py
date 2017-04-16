@@ -1,9 +1,7 @@
-from spiner import config
+# -*- coding: utf-8 -*-
+
 from webapp2 import uri_for
 from webapp2_extras import sessions
-
-SECRET_KEY = config.getenv('SESSION_SECRET_KEY')
-EXPIRE = config.getenv('SESSION_EXPIRE')
 
 
 def auth_session(func):

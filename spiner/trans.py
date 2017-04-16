@@ -10,11 +10,22 @@ class Trans:
         'hello': {
             'short': {
                 'pl': 'Witaj Świecie',
+                'en': 'Hello World',
+            },
+            'list': {
+                'pl': ['raz', 'dwa'],
+                'en': ['one', 'two'],
+            },
+            'number': {
+                'pl': 1,
+                'en': 2,
             },
         }
     }, 'pl')
 
     trans('hello.short')  # will return: 'Witaj Świecie'
+    trans('hello.list')  # will return: ['raz', 'dwa']
+    trans('hello.number')  # will return: 1
     """
     def __init__(self, translations, lang):
         self.lang = lang
@@ -45,7 +56,7 @@ def get_prefered_lang(accept_lang, supported_lang):
     that match supported languages:
 
     Example:
-       get_prefered_lang('en, en-gb;q=0.8, pl;q=0.7', ('en-gb', 'pl'))
+       get_prefered_lang('en,en-gb;q=0.8,pl;q=0.7', ('en-gb', 'pl'))
         => will return 'en-gb'
     """
     for lang in accept_lang.split(','):

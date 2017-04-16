@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from google.appengine.ext.webapp import blobstore_handlers
-import cloudstorage as gcs
 import spiner
 
 
@@ -15,6 +14,13 @@ class Handler(blobstore_handlers.BlobstoreUploadHandler):
             self.abort(400, "No file has been uploaded")
 
         fileinfo = self.get_file_infos()[0]
+
+        try:
+            import cloudstorage as gcs
+        except ImportError:
+            self.abort(
+                    500,
+                    'GoogleAppEngineCloudStorageClient module is required')
 
         stat = gcs.stat(fileinfo.gs_object_name[3:])
         destpath = "/".join(stat.filename.split("/")[:-1])
