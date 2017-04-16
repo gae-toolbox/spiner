@@ -1,1 +1,3 @@
-Core components for GAE webapp2 
+# spiner
+
+Extension package for webapp2 based apps running on GAE
