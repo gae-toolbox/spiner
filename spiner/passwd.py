@@ -1,5 +1,5 @@
 import bcrypt
-from gaeinit.config import getenv
+from spiner.config import getenv
 
 BCRYPT_ROUNDS = int(getenv('BCRYPT_ROUNDS'))
 

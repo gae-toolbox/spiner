@@ -2,12 +2,15 @@ from setuptools import setup
 
 
 setup(
-    name='gaeinit',
+    name='spiner',
     version='0.1.0',
-    description='Core for GAE based application',
-    url='http://github.com/gaeinit/gaeinit',
+    description='Extension package for webapp2 apps running on GAE',
+    url='http://github.com/gae-toolbox/spiner',
     author='Roman Nowicki',
-    author_email='roman.nowicki@inbox.com',
+    author_email='peengle@gmail.com',
     license='MIT',
-    packages=['gaeinit', 'gaeinit.middlewares', 'gaeinit.handlers'],
+    packages=[
+        'spiner',
+        'spiner.middlewares',
+        'spiner.handlers'],
     zip_safe=False)

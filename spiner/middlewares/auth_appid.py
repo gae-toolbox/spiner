@@ -1,4 +1,4 @@
-from gaeinit import config
+from spiner import config
 from webapp2 import abort
 
 TRUSTED_APP_IDS = config.getenv('TRUSTED_APP_IDS')

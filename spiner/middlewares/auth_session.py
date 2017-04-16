@@ -1,4 +1,4 @@
-from gaeinit import config
+from spiner import config
 from webapp2 import uri_for
 from webapp2_extras import sessions
 

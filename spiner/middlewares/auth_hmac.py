@@ -1,6 +1,6 @@
 from hashlib import md5
 from webapp2 import abort
-import gaeinit.config as config
+import spiner.config as config
 import hmac
 import re
 import time

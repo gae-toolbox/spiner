@@ -17,7 +17,7 @@ class Handler(blobstore_handlers.BlobstoreDownloadHandler):
 
             webapp2.Route(
                 '/_blob',
-                handler=gaeinit.handlers.blob.Handler,
+                handler=spiner.handlers.blob.Handler,
                 name='blob'),
 
             uri_for('blob', path='/mybucket/path/to/file')

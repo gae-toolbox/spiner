@@ -1,4 +1,4 @@
-"""View module for gaeinit apps
+"""View module for spiner apps
 
 This module initialize jinja2 templates engine
 
