@@ -6,30 +6,37 @@ class Trans:
 
     Usage example:
 
-    Trans({
-        'Hello World': {
-            'pl': 'Witaj Świecie',
+    trans = Trans({
+        'hello': {
+            'short': {
+                'pl': 'Witaj Świecie',
+            },
         }
     }, 'pl')
 
-    Trans('Hello World)  # will return: 'Witaj Świecie'
+    trans('hello.short')  # will return: 'Witaj Świecie'
     """
     def __init__(self, translations, lang):
         self.lang = lang
         self.translations = translations
 
-    def __call__(self, key):
+    def __call__(self, path):
         try:
-            d = self.translations[key][self.lang]
-            if isinstance(d, str):
-                return unicode(d, 'utf-8')
+            keys = path.split('.')
+            d = self.translations
+            for key in keys:
+                d = d[key]
 
-            if isinstance(d, (tuple, list)):
-                return [unicode(line, 'utf-8') for line in d]
+            v = d[self.lang]
+            if isinstance(v, str):
+                return unicode(v, 'utf-8')
 
-            return d
+            if isinstance(v, (tuple, list)):
+                return [unicode(line, 'utf-8') for line in v]
+
+            return v
         except KeyError:
-            return key
+            return path
 
 
 def get_prefered_lang(accept_lang, supported_lang):
