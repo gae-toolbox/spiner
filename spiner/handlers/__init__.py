@@ -2,7 +2,7 @@
 # flake8: noqa
 
 import blob
-import json
+import jsonapi
 import langpath
 import proxy
 import session
