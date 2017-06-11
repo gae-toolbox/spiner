@@ -15,7 +15,7 @@ class InvalidJsonInRequestBody(Error):
 class Handler(webapp2.RequestHandler):
     """Base Json handler
     """
-    def _get_req_json_body(self):
+    def _decode_req_payload(self):
         """Returns encoded json from request body"""
         try:
             return json.loads(self.request.body)
