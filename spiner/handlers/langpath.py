@@ -27,6 +27,9 @@ class Handler(webapp2.RequestHandler):
         self.redirect(webapp2.uri_for('index_langpath', lang=lang))
 
     def _get_prefered_lang(self):
-        return get_prefered_lang(
-            self.request.headers['Accept-Language'],
-            getenv('SUPPORTED_LANGUAGES'))
+        try:
+            return get_prefered_lang(
+                self.request.headers['Accept-Language'],
+                getenv('SUPPORTED_LANGUAGES'))
+        except KeyError:
+            return getenv('SUPPORTED_LANGUAGES')[0]
