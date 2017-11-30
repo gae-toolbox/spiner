@@ -13,7 +13,6 @@ from google.appengine.api import app_identity
 import os
 import yaml
 
-
 def is_test_mode():
     """Returns True when application is running in unittest environment"""
     return os.environ['APPLICATION_ID'] == 'testbed-test'
@@ -69,26 +68,17 @@ def _get_env_variables(filename):
         return {}
 
 
-# memorize system env variables
-_settings = {
-        'DEBUG': 0,
-        'ENVIRONMENT': 'production',
-        }
-_prod_env = _get_env_variables('app.yaml')
+def _get_env_settings():
+    try:
+        import env
+        key = app_identity.get_application_id().upper().replace('-', '_')
+        return getattr(env, key)
+    except ImportError:
+        raise ImportError(
+                "Missing app_variable module with app specific config params")
+    except AttributeError:
+        raise AttributeError(
+                "Missing config for {}".format(key))
 
-# Overwrite production settings for dev environments
-if (is_cli_mode() or is_local_env()) and os.path.isfile('local.yaml'):
-    env = _get_env_variables('local.yaml')
-    for (k, v) in dict(_prod_env, **env).items():
-        _settings[k] = v
-    _settings['ENVIRONMENT'] = 'development'
-else:
-    if is_dev_env() and os.path.isfile('dev.yaml'):
-        env = _get_env_variables('dev.yaml')
-        for (k, v) in dict(_prod_env, **env).items():
-            _settings[k] = v
-        _settings['ENVIRONMENT'] = 'development'
-    else:
-        for (k, v) in _prod_env.items():
-            _settings[k] = v
-        _settings['ENVIRONMENT'] = 'production'
+# memorize system env variables
+_settings = _get_env_settings()
