@@ -52,9 +52,9 @@ def getenv(key):
 
 def _get_env_settings():
     try:
-        import env
+        import env_variables
         key = app_identity.get_application_id().upper().replace('-', '_')
-        return getattr(env, key)
+        return getattr(env_variables, key)
     except ImportError:
         raise ImportError(
                 "Missing app_variable module with app specific config params")
