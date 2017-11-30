@@ -1,17 +1,7 @@
-"""Config helper
-
-Allows to overwrite base config params from app.yaml with
-dev.yaml and local.yaml file
-
-To access those config values you can use
-
-    config.getenv(key)
-
-Module has few additional helper methods
+"""
 """
 from google.appengine.api import app_identity
 import os
-import yaml
 
 def is_test_mode():
     """Returns True when application is running in unittest environment"""
@@ -58,14 +48,6 @@ def getenv(key):
                 key,
             )
         )
-
-
-def _get_env_variables(filename):
-    config = yaml.load(file(filename, 'r'))
-    try:
-        return config['env_variables']
-    except:
-        return {}
 
 
 def _get_env_settings():
