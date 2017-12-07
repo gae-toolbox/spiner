@@ -17,7 +17,7 @@ routes = [
 """
 
 import webapp2
-from spiner.config import getenv
+from spiner.env import getenv
 from spiner.trans import get_prefered_lang
 
 
