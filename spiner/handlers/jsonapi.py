@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-
-import webapp2
+from jsonschema import ValidationError
 import json
+import logging
 import spiner.config
+import webapp2
 
 
 class Error(Exception):
@@ -59,3 +60,47 @@ def response_schema(data_schema={}):
             "description",
         ]
     }
+
+def client_error(request, response, exception):
+    response.headers.add_header('Content-Type', 'application/json')
+    code = exception.code if hasattr(exception, 'code') else 400
+
+    try:
+        error_desc = getattr(errorcodes, str(exception.message))
+        error_code = exception.message
+    except AttributeError:
+        error_desc = exception.message
+        error_code = None
+
+    msg = {
+        'status': 'ERROR',
+        'status_code': code,
+        'status_message': response.http_status_message(code),
+        'body': error_desc,
+        'error_code': error_code,
+    }
+
+    response.write(json.dumps(msg, sort_keys=True))
+    response.set_status(code)
+
+
+def internal_server_error(request, response, exception):
+    if isinstance(exception, ValidationError):
+        return client_error(response, response, exception)
+
+    logging.exception(exception)
+
+    response.headers.add_header('Content-Type', 'application/json')
+
+    response.set_status(500)
+    msg = {
+        'status': 'ERROR',
+        'status_code': 500,
+        'status_message': response.http_status_message(500),
+        'body': exception.message
+    }
+
+    if config.is_debug_mode():
+        msg['debug_info'] = str(exception)
+
+    response.write(json.dumps(msg, sort_keys=True))
