@@ -65,6 +65,9 @@ def client_error(request, response, exception):
     response.headers.add_header('Content-Type', 'application/json')
     code = exception.code if hasattr(exception, 'code') else 400
 
+    if spiner.config.is_debug_mode():
+        logging.exception(exception)
+
     try:
         error_desc = getattr(errorcodes, str(exception.message))
         error_code = exception.message
@@ -100,7 +103,7 @@ def internal_server_error(request, response, exception):
         'body': exception.message
     }
 
-    if config.is_debug_mode():
+    if spiner.config.is_debug_mode():
         msg['debug_info'] = str(exception)
 
     response.write(json.dumps(msg, sort_keys=True))
