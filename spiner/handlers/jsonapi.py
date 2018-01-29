@@ -71,7 +71,7 @@ def client_error(request, response, exception):
     try:
         error_desc = getattr(errorcodes, str(exception.message))
         error_code = exception.message
-    except AttributeError:
+    except AttributeError, NameError:
         error_desc = exception.message
         error_code = None
 
