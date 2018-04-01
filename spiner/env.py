@@ -57,7 +57,7 @@ def _get_env_settings():
         return getattr(env_variables, key)
     except ImportError:
         raise ImportError(
-                "Missing app_variable module with app specific config params")
+                "Missing env_variable module with app specific config params")
     except AttributeError:
         raise AttributeError(
                 "Missing config for {}".format(key))
