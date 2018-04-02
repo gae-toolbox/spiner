@@ -10,7 +10,7 @@ Example:
         'var2': 2,
     }))
 """
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 from webapp2 import uri_for
 import os
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from view import view
+from tpl import view
 import auth
 import config
 import response
