@@ -12,7 +12,8 @@ def auth_session(func):
         session = store.get_session()
 
         if not session:
-            self.redirect(uri_for('signin', **kwargs))
+            self.redirect(
+                    uri_for('signin', req_url=self.request.url, **kwargs))
             return
         return func(self, session=session, *args, **kwargs)
     return func_wrapper
