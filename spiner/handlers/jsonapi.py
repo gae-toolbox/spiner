@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from jsonschema import ValidationError
 import json
 import logging
 import spiner.config
@@ -88,8 +87,11 @@ def client_error(request, response, exception):
 
 
 def internal_server_error(request, response, exception):
-    if isinstance(exception, ValidationError):
-        return client_error(response, response, exception)
+    try:
+        if isinstance(exception, ValidationError):
+            return client_error(response, response, exception)
+    except ImportError:
+        pass
 
     logging.exception(exception)
 
