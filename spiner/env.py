@@ -51,9 +51,18 @@ def getenv(key):
 
 
 def _get_env_settings():
+    """Returns setting defined in env_variables module properties:
+    WEBAPP = {...} -> production
+    WEBAPP_DEV = {...} -> spiner dev environment
+    """
     try:
         import env_variables
-        key = app_identity.get_application_id().upper().replace('-', '_')
+        if is_dev_env() or is_local_env():
+            key = 'WEBAPP_DEV'
+        elif is_test_mode():
+            key = 'TESTBED_TEST'
+        else:
+            key = 'WEBAPP'
         return getattr(env_variables, key)
     except ImportError:
         raise ImportError(
