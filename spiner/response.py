@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from json import dumps as json_dumps
-import config
+from . import env
 
 _intent = None
 _separators = None
-if config.is_debug_mode():
+if env.is_debug_mode():
     _intent = 4
     _separators = (',', ': ')
 
