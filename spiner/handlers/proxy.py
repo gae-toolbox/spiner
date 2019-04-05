@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from spiner.config import getenv
+from spiner.env import getenv
 from google.appengine.api import urlfetch
 from webapp2 import RequestHandler
 

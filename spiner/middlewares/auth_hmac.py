@@ -2,7 +2,7 @@
 
 from hashlib import md5
 from webapp2 import abort
-import spiner.config as config
+import spiner.env
 import hmac
 import re
 import time
@@ -14,7 +14,7 @@ def auth_hmac(func):
     To sign requst you need to generate hmac-md5 with
 
     msg = relative url (path + query_string)
-    key = config.getenv('HMAC_SECRET_KEY') +
+    key = spiner.env.getenv('HMAC_SECRET_KEY') +
             (current_timestamp - current_timestamp % 1000)
 
     Example of signed url:
@@ -22,8 +22,8 @@ def auth_hmac(func):
     /uri/path?param1=1&param2=2&hmac=fa0ed6c31a72d71413bba43ef93582ca
     """
     def func_wrapper(self, *args, **kwargs):
-        SECRET_KEY = config.getenv('HMAC_SECRET_KEY')
-        EXPIRE = int(config.getenv('HMAC_EXPIRE'))
+        SECRET_KEY = spiner.env.getenv('HMAC_SECRET_KEY')
+        EXPIRE = int(spiner.env.getenv('HMAC_EXPIRE'))
         auth = self.request.get('hmac', '')
         current_timestamp = int(time.time())
         expire = current_timestamp - current_timestamp % EXPIRE
@@ -38,14 +38,14 @@ def auth_hmac(func):
             SECRET_KEY + str(expire), msg, md5
         ).hexdigest()
 
-        if config.is_debug_mode() and auth == 'bypass':
+        if spiner.env.is_debug_mode() and auth == 'bypass':
             auth = code
 
         if not auth:
             abort(403, 'Missing hmac parameter')
 
         if code != auth:
-            if config.is_debug_mode():
+            if spiner.env.is_debug_mode():
                 abort(403, 'Invalid hmac code. Should be: %s' % code)
             else:
                 abort(403, 'Invalid hmac authorization code')

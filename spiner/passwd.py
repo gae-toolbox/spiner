@@ -1,5 +1,5 @@
 import bcrypt
-from spiner.config import getenv
+from spiner.env import getenv
 
 
 def hash(pwd, salt=None):

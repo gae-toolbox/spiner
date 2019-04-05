@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import logging
-import spiner.env as config
+import spiner.env
 import webapp2
 
 class Error(Exception):
@@ -25,7 +25,7 @@ class Handler(webapp2.RequestHandler):
     def _send(self, data, code=200, doc=None):
         intent = None
         separators = None
-        if spiner.config.is_debug_mode():
+        if spiner.env.is_debug_mode():
             intent = 4
             separators = (',', ': ')
         self.response.content_type = 'application/json'
@@ -63,7 +63,7 @@ def client_error(request, response, exception):
     response.headers.add_header('Content-Type', 'application/json')
     code = exception.code if hasattr(exception, 'code') else 400
 
-    if spiner.config.is_debug_mode():
+    if spiner.env.is_debug_mode():
         logging.exception(exception)
 
     try:
@@ -105,7 +105,7 @@ def internal_server_error(request, response, exception):
         'body': exception.message
     }
 
-    if spiner.config.is_debug_mode():
+    if spiner.env.is_debug_mode():
         msg['debug_info'] = str(exception)
 
     response.write(json.dumps(msg, sort_keys=True))
