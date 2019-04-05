@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
 import logging
-import spiner.config
+import spiner.env as config
 import webapp2
-
 
 class Error(Exception):
     pass
@@ -88,7 +87,8 @@ def client_error(request, response, exception):
 
 def internal_server_error(request, response, exception):
     try:
-        if isinstance(exception, ValidationError):
+        import jsonschema.ValidationError
+        if isinstance(exception, jsonschema.ValidationError):
             return client_error(response, response, exception)
     except ImportError:
         pass
